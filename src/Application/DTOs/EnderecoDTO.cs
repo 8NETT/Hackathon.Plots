@@ -1,6 +1,6 @@
-﻿namespace Domain.ValueObjects;
+﻿namespace Application.DTOs;
 
-public sealed record Endereco
+public sealed record EnderecoDTO
 {
     public required string Logradouro { get; init; }
     public required string Numero { get; init; }
