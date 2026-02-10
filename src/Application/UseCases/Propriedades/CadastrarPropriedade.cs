@@ -3,12 +3,17 @@ using Application.Mapping;
 using Application.Persistence;
 using Ardalis.Result;
 using FluentValidation;
+using Microsoft.Extensions.Logging;
 
 namespace Application.UseCases.Propriedades;
 
-public sealed class CadastrarPropriedade : ResultUseCase<CadastrarPropriedadeDTO, PropriedadeDTO>
+public sealed class CadastrarPropriedade : BaseUseCase<CadastrarPropriedadeDTO, PropriedadeDTO>
 {
-    public CadastrarPropriedade(IUnitOfWork unitOfWork, IValidator<CadastrarPropriedadeDTO>? validator) : base(unitOfWork, validator) { }
+    public CadastrarPropriedade(
+        IUnitOfWork unitOfWork, 
+        IValidator<CadastrarPropriedadeDTO>? validator,
+        ILogger<CadastrarPropriedade> logger) 
+        : base(unitOfWork, validator, logger) { }
 
     protected override async Task<Result<PropriedadeDTO>> ExecuteCoreAsync(CadastrarPropriedadeDTO input, CancellationToken cancellationToken = default)
     {
