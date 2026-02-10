@@ -2,32 +2,20 @@
 using Application.Mapping;
 using Application.Persistence;
 using Ardalis.Result;
-using Ardalis.Result.FluentValidation;
 using FluentValidation;
 
 namespace Application.UseCases.Propriedades;
 
-public sealed class CadastrarPropriedade : IUseCase<CadastrarPropriedadeDTO, Result<PropriedadeDTO>>
+public sealed class CadastrarPropriedade : ResultUseCase<CadastrarPropriedadeDTO, PropriedadeDTO>
 {
-    private IValidator<CadastrarPropriedadeDTO>? _validator;
-    private IUnitOfWork _unitOfWork;
+    public CadastrarPropriedade(IUnitOfWork unitOfWork, IValidator<CadastrarPropriedadeDTO>? validator) : base(unitOfWork, validator) { }
 
-    public CadastrarPropriedade(IUnitOfWork unitOfWork, IValidator<CadastrarPropriedadeDTO>? validator)
+    protected override async Task<Result<PropriedadeDTO>> ExecuteCoreAsync(CadastrarPropriedadeDTO input, CancellationToken cancellationToken = default)
     {
-        _validator = validator;
-        _unitOfWork = unitOfWork;
-    }
-
-    public async Task<Result<PropriedadeDTO>> HandleAsync(CadastrarPropriedadeDTO dto)
-    {
-        var result = _validator?.Validate(dto);
-        if (result is not null && !result.IsValid)
-            return Result.Invalid(result.AsErrors());
-
-        var propriedade = dto.ToEntity();
+        var propriedade = input.ToEntity();
 
         _unitOfWork.PropriedadeRepository.Cadastrar(propriedade);
-        await _unitOfWork.CommitAsync();
+        await _unitOfWork.CommitAsync(cancellationToken);
 
         return propriedade.ToDTO();
     }

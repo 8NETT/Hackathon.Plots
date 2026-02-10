@@ -23,5 +23,8 @@ public sealed class UnitOfWork : IUnitOfWork
     public async Task CommitAsync() =>
         await _context.SaveChangesAsync();
 
+    public async Task CommitAsync(CancellationToken cancellationToken = default) =>
+        await _context.SaveChangesAsync(cancellationToken);
+
     public void Dispose() => _context.Dispose();
 }

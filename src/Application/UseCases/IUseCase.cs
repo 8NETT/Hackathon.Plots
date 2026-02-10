@@ -1,6 +1,6 @@
 ﻿namespace Application.UseCases;
 
-public interface IUseCase<in TRequest, TResponse>
+public interface IUseCase<in TInput, TOutput>
 {
-    Task<TResponse> HandleAsync(TRequest request);
+    Task<TOutput> HandleAsync(TInput input, CancellationToken cancellationToken);
 }
