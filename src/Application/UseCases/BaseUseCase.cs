@@ -1,13 +1,8 @@
 ﻿using Application.Persistence;
-using Ardalis.Result;
-using Ardalis.Result.FluentValidation;
-using FluentValidation;
-using Microsoft.Extensions.Logging;
-using System.Diagnostics;
 
 namespace Application.UseCases;
 
-public abstract class BaseUseCase<TInput, TOutput> : IUseCase<TInput, Result<TOutput>>
+public abstract class BaseUseCase<TInput, TOutput> : IUseCase<TInput, TOutput>
 {
     protected IUnitOfWork _unitOfWork;
     protected IValidator<TInput>? _validator;

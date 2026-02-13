@@ -1,10 +1,4 @@
-﻿using Azure.Monitor.OpenTelemetry.AspNetCore;
-using OpenTelemetry.Metrics;
-using OpenTelemetry.Trace;
-using Serilog;
-using Serilog.Events;
-
-namespace API.Configurations;
+﻿namespace API.Configurations;
 
 internal static class LogConfiguration
 {
@@ -56,19 +50,24 @@ internal static class LogConfiguration
 
     private static void AddOpenTelemetryConfiguration(this WebApplicationBuilder builder)
     {
-        builder.Services.AddOpenTelemetry()
-            .UseAzureMonitor()
-            .WithTracing(tracing =>
-            {
-                tracing.AddAspNetCoreInstrumentation();
-                tracing.AddHttpClientInstrumentation();
-                tracing.AddSqlClientInstrumentation(options => options.RecordException = true);
-            })
-            .WithMetrics(metrics =>
-            {
-                metrics.AddAspNetCoreInstrumentation();
-                metrics.AddHttpClientInstrumentation();
-            });
+        var connectionString = builder.Configuration["AzureMonitor:ConnectionString"]
+            ?? builder.Configuration["APPLICATIONINSIGHTS_CONNECTION_STRING"];
+
+        if (!string.IsNullOrWhiteSpace(connectionString))
+            builder.Services.AddOpenTelemetry()
+                .ConfigureResource(r => r.AddService(builder.Environment.ApplicationName))
+                .UseAzureMonitor(options => options.ConnectionString = connectionString)
+                .WithTracing(tracing =>
+                {
+                    tracing.AddAspNetCoreInstrumentation();
+                    tracing.AddHttpClientInstrumentation();
+                    tracing.AddSqlClientInstrumentation(options => options.RecordException = true);
+                })
+                .WithMetrics(metrics =>
+                {
+                    metrics.AddAspNetCoreInstrumentation();
+                    metrics.AddHttpClientInstrumentation();
+                });
     }
 
     private static void AddSerilogConfiguration(this WebApplicationBuilder builder)

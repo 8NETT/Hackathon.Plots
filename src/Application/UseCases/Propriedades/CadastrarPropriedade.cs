@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Application.UseCases.Propriedades;
 
-public sealed class CadastrarPropriedade : BaseUseCase<CadastrarPropriedadeDTO, PropriedadeDTO>
+public sealed class CadastrarPropriedade : BaseUseCase<CadastrarPropriedadeDTO, PropriedadeDTO>, ICadastrarPropriedadeUseCase
 {
     public CadastrarPropriedade(
         IUnitOfWork unitOfWork, 
