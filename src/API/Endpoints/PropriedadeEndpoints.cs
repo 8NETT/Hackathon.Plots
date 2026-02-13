@@ -1,5 +1,6 @@
 ﻿using API.Mapping;
 using API.Requests;
+using API.Security;
 using API.Validation;
 using Application.UseCases.Propriedades;
 using Ardalis.Result;
@@ -12,7 +13,31 @@ internal static class PropriedadeEndpoints
     {
         var group = builder.MapGroup("/propriedades")
             .WithTags("Propriedades")
-            .AddEndpointFilter<FluentValidationFilter>();
+            .AddEndpointFilter<FluentValidationFilter>()
+            .RequireAuthorization();
+
+        group.MapGet("/{id:guid}", async (
+            Guid id,
+            IObterPropriedadeUseCase useCase,
+            HttpContext context,
+            CancellationToken ct) =>
+        {
+            var authenticatedUserId = context.User.GetAuthenticatedUserId();
+
+            if (authenticatedUserId is null)
+                return Results.Unauthorized();
+
+            var result = await useCase.HandleAsync(id, ct);
+
+            if (result.IsNotFound())
+                return Results.NotFound();
+            if (!result.IsSuccess)
+                return Results.BadRequest(result.Errors);
+            if (result.Value.ProprietarioId != authenticatedUserId)
+                return Results.Unauthorized();
+
+            return Results.Ok(result.Value);
+        });
 
         group.MapPost("/", async (
             CadastrarPropriedadeRequest request,
@@ -20,14 +45,12 @@ internal static class PropriedadeEndpoints
             HttpContext context,
             CancellationToken ct) =>
         {
-            var userIdClaim = context.User.FindFirstValue(JwtRegisteredClaimNames.Sub);
+            var authenticatedUserId = context.User.GetAuthenticatedUserId();
 
-            if (userIdClaim is null)
-                return Results.Unauthorized();
-            if (!Guid.TryParse(userIdClaim, out var authenticatedUserId))
+            if (authenticatedUserId is null)
                 return Results.Unauthorized();
 
-            var result = await useCase.HandleAsync(request.ToApplicationDTO(authenticatedUserId), ct);
+            var result = await useCase.HandleAsync(request.ToApplicationDTO(authenticatedUserId.Value), ct);
 
             if (result.IsInvalid())
                 return Results.BadRequest(result.ValidationErrors);
@@ -36,7 +59,6 @@ internal static class PropriedadeEndpoints
 
             return Results.Created($"/propriedades/{result.Value.Id}", result.Value);
         })
-            .RequireAuthorization()
             .WithSummary("Cadastra uma nova propriedade")
             .Produces<CadastrarPropriedadeRequest>(StatusCodes.Status201Created)
             .Produces(StatusCodes.Status400BadRequest)
