@@ -1,5 +1,6 @@
 ﻿global using Azure.Monitor.OpenTelemetry.AspNetCore;
 global using FluentValidation;
+global using Microsoft.AspNetCore.Mvc;
 global using OpenTelemetry.Metrics;
 global using OpenTelemetry.Resources;
 global using OpenTelemetry.Trace;

@@ -1,6 +1,6 @@
 ﻿namespace API.Requests;
 
-public sealed record CadastrarEnderecoRequest
+public sealed record EnderecoRequest
 {
     public string? Logradouro { get; init; }
     public string? Numero { get; init; }

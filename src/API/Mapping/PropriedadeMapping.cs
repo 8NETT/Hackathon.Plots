@@ -8,13 +8,23 @@ internal static class PropriedadeMapping
     public static CadastrarPropriedadeDTO ToApplicationDTO(this CadastrarPropriedadeRequest request, Guid usuarioId) =>
         new CadastrarPropriedadeDTO
         {
-            ProprietarioId = usuarioId,
+            UsuarioId = usuarioId,
             Nome = request.Nome!,
             Descricao = request.Descricao,
             Endereco = request.Endereco?.ToApplicationDTO()
         };
 
-    public static EnderecoDTO ToApplicationDTO(this CadastrarEnderecoRequest request) =>
+    public static AlterarPropriedadeDTO ToApplicationDTO(this AlterarPropriedadeRequest request, Guid id, Guid usuarioId) =>
+        new AlterarPropriedadeDTO
+        {
+            Id = id,
+            UsuarioId = usuarioId,
+            Nome = request.Nome!,
+            Descricao = request.Descricao,
+            Endereco = request.Endereco?.ToApplicationDTO()
+        };
+
+    public static EnderecoDTO ToApplicationDTO(this EnderecoRequest request) =>
         new EnderecoDTO
         {
             Logradouro = request.Logradouro!,

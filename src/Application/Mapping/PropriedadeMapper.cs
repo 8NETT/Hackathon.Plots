@@ -7,7 +7,7 @@ internal static class PropriedadeMapper
 {
     public static Propriedade ToEntity(this CadastrarPropriedadeDTO dto) =>
         Propriedade.Nova
-            .ProprietarioId(dto.ProprietarioId)
+            .ProprietarioId(dto.UsuarioId)
             .Nome(dto.Nome)
             .Descricao(dto.Descricao)
             .Endereco(dto.Endereco?.ToValueObject())

@@ -18,4 +18,18 @@ public sealed class Propriedade : BaseEntity
     public static PropriedadeBuilder Nova => new PropriedadeBuilder();
 
     public override string ToString() => Nome;
+
+    public void AlterarIdentificacao(string nome, string? descricao)
+    {
+        if (string.IsNullOrWhiteSpace(nome))
+            throw new ArgumentNullException(nameof(nome));
+
+        Nome = nome;
+        Descricao = descricao;
+    }
+
+    public void AlterarEndereco(Endereco? endereco)
+    {
+        Endereco = endereco;
+    }
 }

@@ -1,7 +1,8 @@
 ﻿namespace Application.DTOs;
 
-public sealed record CadastrarPropriedadeDTO
+public sealed record AlterarPropriedadeDTO
 {
+    public required Guid Id { get; init; }
     public required Guid UsuarioId { get; init; }
     public required string Nome { get; init; }
     public string? Descricao { get; init; }
