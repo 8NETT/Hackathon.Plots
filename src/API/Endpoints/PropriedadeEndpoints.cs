@@ -19,19 +19,15 @@ internal static class PropriedadeEndpoints
         group.MapGet("/{id:guid}", async (
             Guid id,
             IObterPropriedadeUseCase useCase,
-            HttpContext context,
+            ICurrentUser user,
             CancellationToken ct) =>
         {
-            var authenticatedUserId = context.User.GetAuthenticatedUserId();
+            var result = await useCase.HandleAsync(new() { Id = id, UsuarioId = user.Id }, ct);
 
-            if (authenticatedUserId is null)
-                return Results.Unauthorized();
-
-            var result = await useCase.HandleAsync(new() { Id = id, UsuarioId = authenticatedUserId.Value }, ct);
-
-            if (result.IsNotFound()) return Results.NotFound();
-            if (result.IsForbidden()) return Results.Forbid();
-            if (!result.IsSuccess) return Results.Problem();
+            if (result.IsNotFound()) 
+                return Results.NotFound();
+            if (result.IsForbidden()) 
+                return Results.Forbid();
 
             return Results.Ok(result.Value);
         })
@@ -43,60 +39,64 @@ internal static class PropriedadeEndpoints
         group.MapPost("/", async (
             CadastrarPropriedadeRequest request,
             ICadastrarPropriedadeUseCase useCase,
-            HttpContext context,
+            ICurrentUser user,
             CancellationToken ct) =>
         {
-            var authenticatedUserId = context.User.GetAuthenticatedUserId();
-
-            if (authenticatedUserId is null)
-                return Results.Unauthorized();
-
-            var result = await useCase.HandleAsync(request.ToApplicationDTO(authenticatedUserId.Value), ct);
+            var result = await useCase.HandleAsync(request.ToApplicationDTO(user.Id), ct);
 
             if (result.IsInvalid())
                 return Results.BadRequest(result.ValidationErrors);
-            if (!result.IsSuccess)
-                return Results.BadRequest(result.Errors);
 
             return Results.Created($"/propriedades/{result.Value.Id}", result.Value);
         })
             .WithSummary("Cadastra uma nova propriedade")
             .Produces(StatusCodes.Status201Created)
             .Produces(StatusCodes.Status400BadRequest)
-            .Produces(StatusCodes.Status401Unauthorized)
             .Accepts<CadastrarPropriedadeRequest>("application/json");
 
         group.MapPut("/{id:guid}", async (
             Guid id,
             AlterarPropriedadeRequest request,
             IAlterarPropriedadeUseCase useCase,
-            HttpContext context,
+            ICurrentUser user,
             CancellationToken ct) =>
         {
-            var authenticatedUserId = context.User.GetAuthenticatedUserId();
-
-            if (authenticatedUserId is null)
-                return Results.Unauthorized();
-
-            var result = await useCase.HandleAsync(request.ToApplicationDTO(id, authenticatedUserId.Value), ct);
+            var result = await useCase.HandleAsync(request.ToApplicationDTO(id, user.Id), ct);
 
             if (result.IsNotFound())
                 return Results.NotFound();
             if (result.IsForbidden())
-                return Results.Unauthorized();
+                return Results.Forbid();
             if (result.IsInvalid())
                 return Results.BadRequest(result.ValidationErrors);
-            if (!result.IsSuccess)
-                return Results.BadRequest(result.Errors);
 
             return Results.Ok(result.Value);
         })
             .WithSummary("Altera os dados de uma propriedade existente")
             .Produces(StatusCodes.Status200OK)
             .Produces(StatusCodes.Status400BadRequest)
-            .Produces(StatusCodes.Status401Unauthorized)
             .Produces(StatusCodes.Status404NotFound)
             .Accepts<AlterarPropriedadeRequest>("application/json");
+
+        group.MapDelete("/{id:guid}", async (
+            Guid id,
+            IRemoverProrpriedadeUseCase usecase,
+            ICurrentUser user,
+            CancellationToken ct) =>
+        {
+            var result = await usecase.HandleAsync(new() { Id = id, UsuarioId = user.Id }, ct);
+
+            if (result.IsNotFound())
+                return Results.NotFound();
+            if (result.IsForbidden())
+                return Results.Forbid();
+
+            return Results.Ok();
+        })
+            .WithSummary("Remove uma propriedade existente")
+            .Produces(StatusCodes.Status200OK)
+            .Produces(StatusCodes.Status403Forbidden)
+            .Produces(StatusCodes.Status404NotFound);
 
         return group;
     }
