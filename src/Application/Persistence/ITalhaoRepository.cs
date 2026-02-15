@@ -4,7 +4,6 @@ namespace Application.Persistence;
 
 public interface ITalhaoRepository : IRepository<Talhao>
 {
-    Task<Talhao?> ObterComPropriedade(Guid id);
-    Task<IEnumerable<Talhao>> ObterDaPropriedade(Guid propriedadeId);
-    Task<IEnumerable<Talhao>> ObterDoProprietario(Guid proprietarioId);
+    Task<Talhao?> ObterComPropriedade(Guid id, CancellationToken cancellation = default);
+    Task<IEnumerable<Talhao>> ObterDoProprietario(Guid proprietarioId, CancellationToken cancellation = default);
 }
