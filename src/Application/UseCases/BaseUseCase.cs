@@ -9,6 +9,8 @@ public abstract class BaseUseCase<TInput, TOutput> : IUseCase<TInput, TOutput>
     protected ILogger _logger;
     protected string _useCaseName;
 
+    protected BaseUseCase(IUnitOfWork unitOfWork, ILogger logger) : this(unitOfWork, null, logger) { }
+
     protected BaseUseCase(IUnitOfWork unitOfWork, IValidator<TInput>? validator, ILogger logger)
     {
         _unitOfWork = unitOfWork;

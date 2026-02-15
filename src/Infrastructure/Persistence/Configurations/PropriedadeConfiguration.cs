@@ -23,6 +23,6 @@ internal sealed class PropriedadeConfiguration : IEntityTypeConfiguration<Propri
             p.Property(e => e.UF).HasColumnName("UF").HasMaxLength(2).IsRequired();
             p.Property(e => e.CEP).HasColumnName("CEP").HasMaxLength(9);
         });
-        builder.HasMany(p => p.Talhoes).WithOne().HasForeignKey(t => t.PropriedadeId).IsRequired();
+        builder.HasMany(p => p.Talhoes).WithOne(t => t.Propriedade).HasForeignKey(t => t.PropriedadeId).IsRequired();
     }
 }

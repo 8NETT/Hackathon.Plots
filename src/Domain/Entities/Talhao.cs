@@ -10,8 +10,9 @@ public sealed class Talhao : BaseEntity
     public string? Descricao { get; internal set; }
     public Coordenadas Coordenadas { get; internal set; }
     public decimal Area { get; internal set; }
+    public Propriedade Propriedade { get; internal set; }
 
-    internal Talhao() { Nome = null!; Coordenadas = null!; }
+    internal Talhao() { Nome = null!; Coordenadas = null!; Propriedade = null!; }
 
     public static TalhaoBuilder Novo => new TalhaoBuilder();    
 }
