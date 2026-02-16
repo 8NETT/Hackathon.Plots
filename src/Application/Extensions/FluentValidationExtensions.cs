@@ -1,6 +1,6 @@
 ﻿namespace Application.Extensions;
 
-internal static class FluentValidationExtensions
+public static class FluentValidationExtensions
 {
     public static IRuleBuilderOptions<T, TProperty?> SetOptionalValidator<T, TProperty>(
         this IRuleBuilder<T, TProperty?> ruleBuilder,

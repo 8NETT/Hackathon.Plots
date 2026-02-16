@@ -9,5 +9,5 @@ public sealed record CadastrarTalhaoDTO
     public required string Nome { get; init; }
     public string? Descricao { get; init; }
     public required CoordenadasDTO Coordenadas { get; init; }
-    public required int Area { get; init; }
+    public required decimal Area { get; init; }
 }
