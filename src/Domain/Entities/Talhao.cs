@@ -14,5 +14,20 @@ public sealed class Talhao : BaseEntity
 
     internal Talhao() { Nome = null!; Coordenadas = null!; Propriedade = null!; }
 
-    public static TalhaoBuilder Novo => new TalhaoBuilder();    
+    public static TalhaoBuilder Novo => new TalhaoBuilder();
+
+    public void Alterar(string nome, string? descricao, Coordenadas coordenadas, decimal area)
+    {
+        if (string.IsNullOrWhiteSpace(Nome))
+            throw new ArgumentNullException(nameof(Nome));
+        if (coordenadas is null)
+            throw new ArgumentNullException(nameof(coordenadas));
+        if (area <= 0M)
+            throw new ArgumentOutOfRangeException(nameof(area));
+
+        Nome = nome;
+        Descricao = descricao;
+        Coordenadas = coordenadas;
+        Area = area;
+    }
 }

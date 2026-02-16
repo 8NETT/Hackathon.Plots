@@ -2,5 +2,5 @@
 
 public interface IUseCase<in TInput, TOutput>
 {
-    Task<Result<TOutput>> HandleAsync(TInput input, CancellationToken cancellationToken);
+    Task<Result<TOutput>> HandleAsync(TInput input, CancellationToken cancellation);
 }

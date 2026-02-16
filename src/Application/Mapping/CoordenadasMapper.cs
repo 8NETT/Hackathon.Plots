@@ -10,4 +10,7 @@ internal static class CoordenadasMapper
         Latitude = coordenadas.Latitude,
         Longitude = coordenadas.Longitude
     };
+
+    public static Coordenadas ToValueObject(this CoordenadasDTO dto) =>
+        new(dto.Latitude, dto.Longitude);
 }
