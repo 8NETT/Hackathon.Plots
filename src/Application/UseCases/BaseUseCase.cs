@@ -19,7 +19,7 @@ public abstract class BaseUseCase<TInput, TOutput> : IUseCase<TInput, TOutput>
         _useCaseName = GetType().Name;
     }
 
-    public async Task<Result<TOutput>> HandleAsync(TInput input, CancellationToken cancellationToken = default)
+    public async Task<Result<TOutput>> HandleAsync(TInput input, CancellationToken cancellation = default)
     {
         using var scope = _logger.BeginScope(new Dictionary<string, object?> { ["UseCase"] = _useCaseName });
 
@@ -33,7 +33,7 @@ public abstract class BaseUseCase<TInput, TOutput> : IUseCase<TInput, TOutput>
 
         // Execution
         var sw = Stopwatch.StartNew();
-        var result = await ExecuteCoreAsync(input);
+        var result = await ExecuteCoreAsync(input, cancellation);
         sw.Stop();
 
         // Result
@@ -45,5 +45,5 @@ public abstract class BaseUseCase<TInput, TOutput> : IUseCase<TInput, TOutput>
         return result;
     }
 
-    protected abstract Task<Result<TOutput>> ExecuteCoreAsync(TInput input, CancellationToken cancellationToken = default);
+    protected abstract Task<Result<TOutput>> ExecuteCoreAsync(TInput input, CancellationToken cancellation = default);
 }
