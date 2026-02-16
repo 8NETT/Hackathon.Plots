@@ -1,5 +1,7 @@
 ﻿using API.Requests;
 using Application.DTOs;
+using Application.UseCases.Propriedades.AlterarPropriedade;
+using Application.UseCases.Propriedades.CadastrarPropriedade;
 
 namespace API.Mapping;
 

@@ -1,4 +1,5 @@
 ﻿using Application.DTOs;
+using Application.UseCases.Propriedades.CadastrarPropriedade;
 using Domain.Entities;
 
 namespace Application.Mapping;

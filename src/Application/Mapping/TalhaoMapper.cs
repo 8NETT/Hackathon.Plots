@@ -1,4 +1,5 @@
 ﻿using Application.DTOs;
+using Application.UseCases.Talhoes.CadastrarTalhao;
 using Domain.Entities;
 
 namespace Application.Mapping;

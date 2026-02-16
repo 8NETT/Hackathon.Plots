@@ -2,7 +2,10 @@
 using API.Requests;
 using API.Security;
 using API.Validation;
-using Application.UseCases.Propriedades;
+using Application.UseCases.Propriedades.AlterarPropriedade;
+using Application.UseCases.Propriedades.CadastrarPropriedade;
+using Application.UseCases.Propriedades.ObterPropriedade;
+using Application.UseCases.Propriedades.RemoverPropriedade;
 using Ardalis.Result;
 
 namespace API.Endpoints;
@@ -80,7 +83,7 @@ internal static class PropriedadeEndpoints
 
         group.MapDelete("/{id:guid}", async (
             Guid id,
-            IRemoverProrpriedadeUseCase usecase,
+            IRemoverPropriedadeUseCase usecase,
             ICurrentUser user,
             CancellationToken ct) =>
         {
