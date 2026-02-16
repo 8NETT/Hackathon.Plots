@@ -5,8 +5,8 @@ using API.Validation;
 using Application.UseCases.Propriedades.AlterarPropriedade;
 using Application.UseCases.Propriedades.CadastrarPropriedade;
 using Application.UseCases.Propriedades.ObterPropriedade;
+using Application.UseCases.Propriedades.ObterPropriedadesDoProprietario;
 using Application.UseCases.Propriedades.RemoverPropriedade;
-using Ardalis.Result;
 
 namespace API.Endpoints;
 
@@ -18,6 +18,17 @@ internal static class PropriedadeEndpoints
             .WithTags("Propriedades")
             .AddEndpointFilter<FluentValidationFilter>()
             .RequireAuthorization();
+
+        group.MapGet("/", async (
+            IObterPropriedadesDoProprietarioUseCase useCase,
+            ICurrentUser user,
+            CancellationToken ct) =>
+        {
+            var result = await useCase.HandleAsync(user.Id, ct);
+            return Results.Ok(result.Value);
+        })
+            .WithSummary("Obtém os dados das propriedades do usuário")
+            .Produces(StatusCodes.Status200OK);
 
         group.MapGet("/{id:guid}", async (
             Guid id,

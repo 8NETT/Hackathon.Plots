@@ -1,4 +1,5 @@
-﻿global using Azure.Monitor.OpenTelemetry.AspNetCore;
+﻿global using Ardalis.Result;
+global using Azure.Monitor.OpenTelemetry.AspNetCore;
 global using FluentValidation;
 global using Microsoft.AspNetCore.Mvc;
 global using OpenTelemetry.Metrics;
