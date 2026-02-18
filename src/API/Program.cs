@@ -25,5 +25,6 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapPropriedadeEndpoints();
+app.MapTalhaoEndpoints();
 
 app.Run();
