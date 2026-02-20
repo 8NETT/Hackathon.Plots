@@ -7,7 +7,6 @@ public sealed class JwtOptions
     public string Issuer { get; init; } = null!;
     public string Audience { get; init; } = default!;
     public string Key { get; init; } = default!;
-    public int ExpireInMinutes { get; init; } = 60;
 
     /// <summary>
     /// Tenta decodificar a chave se vier em Base64. Se falhar, usa como UTF8.
