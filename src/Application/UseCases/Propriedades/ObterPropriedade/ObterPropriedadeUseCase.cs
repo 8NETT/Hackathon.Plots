@@ -6,8 +6,8 @@ namespace Application.UseCases.Propriedades.ObterPropriedade;
 
 public sealed class ObterPropriedadeUseCase : BaseUseCase<ObterPropriedadeDTO, PropriedadeDTO>, IObterPropriedadeUseCase
 {
-    public ObterPropriedadeUseCase(IUnitOfWork unitOfWork, ILogger logger) 
-        : base(unitOfWork, logger) { }
+    public ObterPropriedadeUseCase(IUnitOfWork unitOfWork, ILoggerFactory loggerFactory) 
+        : base(unitOfWork, loggerFactory) { }
 
     protected override async Task<Result<PropriedadeDTO>> ExecuteCoreAsync(ObterPropriedadeDTO dto, CancellationToken cancellationToken = default)
     {

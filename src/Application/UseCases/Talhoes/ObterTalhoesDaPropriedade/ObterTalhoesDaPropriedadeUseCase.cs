@@ -6,8 +6,8 @@ namespace Application.UseCases.Talhoes.ObterTalhoesDaPropriedade;
 
 public sealed class ObterTalhoesDaPropriedadeUseCase : BaseUseCase<ObterTalhoesDaPropriedadeDTO, IEnumerable<TalhaoDTO>>, IObterTalhoesDaPropriedadeUseCase
 {
-    public ObterTalhoesDaPropriedadeUseCase(IUnitOfWork unitOfWork, ILogger logger)
-        : base(unitOfWork, logger) { }
+    public ObterTalhoesDaPropriedadeUseCase(IUnitOfWork unitOfWork, ILoggerFactory loggerFactory)
+        : base(unitOfWork, loggerFactory) { }
 
     protected override async Task<Result<IEnumerable<TalhaoDTO>>> ExecuteCoreAsync(ObterTalhoesDaPropriedadeDTO dto, CancellationToken cancellationToken = default)
     {

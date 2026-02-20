@@ -6,8 +6,8 @@ namespace Application.UseCases.Talhoes.CadastrarTalhao;
 
 public sealed class CadastrarTalhaoUseCase : BaseUseCase<CadastrarTalhaoDTO, TalhaoDTO>, ICadastrarTalhaoUseCase
 {
-    public CadastrarTalhaoUseCase(IUnitOfWork unitOfWork, IValidator<CadastrarTalhaoDTO>? validator, ILogger logger)
-        : base(unitOfWork, validator, logger) { }
+    public CadastrarTalhaoUseCase(IUnitOfWork unitOfWork, IValidator<CadastrarTalhaoDTO>? validator, ILoggerFactory loggerFactory)
+        : base(unitOfWork, validator, loggerFactory) { }
 
     protected override async Task<Result<TalhaoDTO>> ExecuteCoreAsync(CadastrarTalhaoDTO dto, CancellationToken cancellation = default)
     {

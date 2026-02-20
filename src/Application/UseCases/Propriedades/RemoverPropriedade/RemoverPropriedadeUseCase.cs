@@ -6,8 +6,8 @@ namespace Application.UseCases.Propriedades.RemoverPropriedade;
 
 public sealed class RemoverPropriedadeUseCase : BaseUseCase<RemoverPropriedadeDTO, PropriedadeDTO>, IRemoverPropriedadeUseCase
 {
-    public RemoverPropriedadeUseCase(IUnitOfWork unitOfWork, ILogger logger)
-        : base(unitOfWork, logger) { }
+    public RemoverPropriedadeUseCase(IUnitOfWork unitOfWork, ILoggerFactory loggerFactory)
+        : base(unitOfWork, loggerFactory) { }
 
     protected override async Task<Result<PropriedadeDTO>> ExecuteCoreAsync(RemoverPropriedadeDTO dto, CancellationToken cancellationToken = default)
     {

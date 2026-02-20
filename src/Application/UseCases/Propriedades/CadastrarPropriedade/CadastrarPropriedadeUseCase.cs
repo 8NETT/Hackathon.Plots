@@ -9,8 +9,8 @@ public sealed class CadastrarPropriedadeUseCase : BaseUseCase<CadastrarProprieda
     public CadastrarPropriedadeUseCase(
         IUnitOfWork unitOfWork, 
         IValidator<CadastrarPropriedadeDTO>? validator,
-        ILogger<CadastrarPropriedadeUseCase> logger) 
-        : base(unitOfWork, validator, logger) { }
+        ILoggerFactory loggerFactory) 
+        : base(unitOfWork, validator, loggerFactory) { }
 
     protected override async Task<Result<PropriedadeDTO>> ExecuteCoreAsync(CadastrarPropriedadeDTO input, CancellationToken cancellationToken = default)
     {

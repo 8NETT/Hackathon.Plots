@@ -6,8 +6,8 @@ namespace Application.UseCases.Talhoes.ObterTalhao;
 
 public sealed class ObterTalhaoUseCase : BaseUseCase<ObterTalhaoDTO, TalhaoDTO>, IObterTalhaoUseCase
 {
-    public ObterTalhaoUseCase(IUnitOfWork unitOfWork, ILogger logger)
-        : base(unitOfWork, logger) { }
+    public ObterTalhaoUseCase(IUnitOfWork unitOfWork, ILoggerFactory loggerFactory)
+        : base(unitOfWork, loggerFactory) { }
 
     protected override async Task<Result<TalhaoDTO>> ExecuteCoreAsync(ObterTalhaoDTO dto, CancellationToken cancellationToken = default)
     {

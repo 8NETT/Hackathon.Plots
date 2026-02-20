@@ -9,14 +9,14 @@ public abstract class BaseUseCase<TInput, TOutput> : IUseCase<TInput, TOutput>
     protected ILogger _logger;
     protected string _useCaseName;
 
-    protected BaseUseCase(IUnitOfWork unitOfWork, ILogger logger) : this(unitOfWork, null, logger) { }
+    protected BaseUseCase(IUnitOfWork unitOfWork, ILoggerFactory loggerFactory) : this(unitOfWork, null, loggerFactory) { }
 
-    protected BaseUseCase(IUnitOfWork unitOfWork, IValidator<TInput>? validator, ILogger logger)
+    protected BaseUseCase(IUnitOfWork unitOfWork, IValidator<TInput>? validator, ILoggerFactory loggerFactory)
     {
         _unitOfWork = unitOfWork;
         _validator = validator;
-        _logger = logger;
         _useCaseName = GetType().Name;
+        _logger = loggerFactory.CreateLogger(_useCaseName);
     }
 
     public async Task<Result<TOutput>> HandleAsync(TInput input, CancellationToken cancellation = default)

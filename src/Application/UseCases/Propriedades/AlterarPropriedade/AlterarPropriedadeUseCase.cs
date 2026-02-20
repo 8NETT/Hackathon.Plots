@@ -6,8 +6,8 @@ namespace Application.UseCases.Propriedades.AlterarPropriedade;
 
 public sealed class AlterarPropriedadeUseCase : BaseUseCase<AlterarPropriedadeDTO, PropriedadeDTO>, IAlterarPropriedadeUseCase
 {
-    public AlterarPropriedadeUseCase(IUnitOfWork unitOfWork, IValidator<AlterarPropriedadeDTO>? validator, ILogger logger)
-        : base(unitOfWork, validator, logger) { }
+    public AlterarPropriedadeUseCase(IUnitOfWork unitOfWork, IValidator<AlterarPropriedadeDTO>? validator, ILoggerFactory loggerFactory)
+        : base(unitOfWork, validator, loggerFactory) { }
 
     protected override async Task<Result<PropriedadeDTO>> ExecuteCoreAsync(AlterarPropriedadeDTO dto, CancellationToken cancellationToken = default)
     {

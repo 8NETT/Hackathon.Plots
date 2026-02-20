@@ -6,8 +6,8 @@ namespace Application.UseCases.Talhoes.RemoverTalhao;
 
 public sealed class RemoverTalhaoUseCase : BaseUseCase<RemoverTalhaoDTO, TalhaoDTO>, IRemoverTalhaoUseCase
 {
-    public RemoverTalhaoUseCase(IUnitOfWork unitOfWork, ILogger logger)
-        : base(unitOfWork, logger) { }
+    public RemoverTalhaoUseCase(IUnitOfWork unitOfWork, ILoggerFactory loggerFactory)
+        : base(unitOfWork, loggerFactory) { }
 
     protected override async Task<Result<TalhaoDTO>> ExecuteCoreAsync(RemoverTalhaoDTO dto, CancellationToken cancellationToken = default)
     {

@@ -1,14 +1,13 @@
 ﻿using Application.DTOs;
 using Application.Mapping;
 using Application.Persistence;
-using Application.UseCases.Talhoes.AlterarTalhao;
 
 namespace Application.UseCases.Talhoes.AlterarTalhao;
 
 public sealed class AlterarTalhaoUseCase : BaseUseCase<AlterarTalhaoDTO, TalhaoDTO>, IAlterarTalhaoUseCase
 {
-    public AlterarTalhaoUseCase(IUnitOfWork unitOfWork, IValidator<AlterarTalhaoDTO>? validator, ILogger logger)
-        : base(unitOfWork, validator, logger) { }
+    public AlterarTalhaoUseCase(IUnitOfWork unitOfWork, IValidator<AlterarTalhaoDTO>? validator, ILoggerFactory loggerFactory)
+        : base(unitOfWork, validator, loggerFactory) { }
 
     protected override async Task<Result<TalhaoDTO>> ExecuteCoreAsync(AlterarTalhaoDTO dto, CancellationToken cancellationToken = default)
     {
