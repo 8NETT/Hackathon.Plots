@@ -20,6 +20,7 @@ internal static class AuthenticationConfiguration
                     .GetSection(JwtOptions.SectionName)
                     .Get<JwtOptions>()!;
 
+                options.MapInboundClaims = false;
                 options.RequireHttpsMetadata = false;
                 options.SaveToken = true;
                 options.TokenValidationParameters = new TokenValidationParameters
