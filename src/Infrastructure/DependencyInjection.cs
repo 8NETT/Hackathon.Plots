@@ -1,24 +1,22 @@
-﻿using Application.Persistence;
+﻿using Application.Messaging;
+using Application.Persistence;
+using Infrastructure.Messaging;
 using Infrastructure.Persistence;
 using Infrastructure.Persistence.Repositories;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+
 
 namespace Infrastructure;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
-    {
-        services.AddPersistence(configuration);
-
-        return services;
-    }
+    public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration) =>
+        services
+            .AddPersistence(configuration)
+            .AddMessaging(configuration);
 
     private static IServiceCollection AddPersistence(this IServiceCollection services, IConfiguration configuration)
     {
-        var connectionString = configuration.GetConnectionString("ConnectionString")
+        var connectionString = configuration.GetConnectionString("Database")
             ?? throw new InvalidOperationException("ConnectionString não localizada na configuração.");
 
         services.AddDbContext<ApplicationDbContext>(
@@ -27,6 +25,16 @@ public static class DependencyInjection
         services.AddScoped<IPropriedadeRepository, PropriedadeRepository>();
         services.AddScoped<ITalhaoRepository, TalhaoRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+        return services;
+    }
+
+    private static IServiceCollection AddMessaging(this IServiceCollection services, IConfiguration configuration)
+    {
+        var eventHubConnectionString = configuration.GetConnectionString("EventHub");
+
+        services.AddSingleton(new EventHubProducerClient(eventHubConnectionString, "nome-do-event-hub"));
+        services.AddScoped<IEventPublisher, AzureEventHubPublisher>();
 
         return services;
     }
