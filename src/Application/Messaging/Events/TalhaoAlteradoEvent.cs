@@ -4,7 +4,7 @@ using Domain.Entities;
 
 namespace Application.Messaging.Events;
 
-public sealed record TalhaoCriadoEvent : Event
+public sealed record TalhaoAlteradoEvent : Event
 {
     public Guid TalhaoId { get; }
     public Guid PropriedadeId { get; }
@@ -14,7 +14,7 @@ public sealed record TalhaoCriadoEvent : Event
     public CoordenadasDTO Coordenadas { get; }
     public decimal Area { get; }
 
-    public TalhaoCriadoEvent(Talhao talhao, Propriedade propriedade) : base("TalhaoCriado")
+    public TalhaoAlteradoEvent(Talhao talhao, Propriedade propriedade) : base("TalhaoAlterado")
     {
         TalhaoId = talhao.Id;
         PropriedadeId = propriedade.Id;

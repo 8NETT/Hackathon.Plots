@@ -33,7 +33,7 @@ public static class DependencyInjection
     {
         var eventHubConnectionString = configuration.GetConnectionString("EventHub");
 
-        services.AddSingleton(new EventHubProducerClient(eventHubConnectionString, "nome-do-event-hub"));
+        services.AddSingleton(new EventHubProducerClient(eventHubConnectionString));
         services.AddScoped<IEventPublisher, AzureEventHubPublisher>();
 
         return services;

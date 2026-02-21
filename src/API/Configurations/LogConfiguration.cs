@@ -50,7 +50,9 @@ internal static class LogConfiguration
 
     private static void AddOpenTelemetryConfiguration(this WebApplicationBuilder builder)
     {
-        var connectionString = builder.Configuration["AzureMonitor:ConnectionString"]
+        var connectionString = builder.Configuration.GetConnectionString("ApplicationInsights")
+            ?? builder.Configuration.GetConnectionString("AzureMonitor")
+            ?? builder.Configuration["AzureMonitor:ConnectionString"]
             ?? builder.Configuration["APPLICATIONINSIGHTS_CONNECTION_STRING"];
 
         if (!string.IsNullOrWhiteSpace(connectionString))
