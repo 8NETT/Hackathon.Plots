@@ -8,7 +8,7 @@ internal static class ClaimsPrincipalExtensions
 
         if (userIdClaim is null)
             return null;
-        if (Guid.TryParse(userIdClaim, out var authenticatedUserId))
+        if (!Guid.TryParse(userIdClaim, out var authenticatedUserId))
             return null;
 
         return authenticatedUserId;

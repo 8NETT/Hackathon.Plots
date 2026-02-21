@@ -10,7 +10,7 @@ builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddApplication();
 builder.Services.AddValidation();
 builder.Services.AddSwagger();
-builder.Services.AddAuthentication();
+builder.Services.AddJwtAuthentication(builder.Configuration);
 
 var app = builder.Build();
 
