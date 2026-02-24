@@ -31,9 +31,10 @@ public static class DependencyInjection
 
     private static IServiceCollection AddMessaging(this IServiceCollection services, IConfiguration configuration)
     {
-        var eventHubConnectionString = configuration.GetConnectionString("EventHub");
+        var connectionString = configuration["TalhaoEventHub:ConnectionString"]
+            ?? throw new InvalidOperationException("Configuração do hub de talhão não localizada no arquivo de configuração.");
 
-        services.AddSingleton(new EventHubProducerClient(eventHubConnectionString));
+        services.AddSingleton(new EventHubProducerClient(connectionString));
         services.AddScoped<IEventPublisher, AzureEventHubPublisher>();
 
         return services;
