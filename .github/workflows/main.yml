@@ -44,4 +44,4 @@ jobs:
           context: .
           push: true
 
-          tags: rm364070/fiap-pos-hackathon-plots:latest
+          tags: gabrieldocker1/fiap-pos-hackathon-plots:latest
