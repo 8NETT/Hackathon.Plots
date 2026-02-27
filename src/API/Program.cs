@@ -31,5 +31,6 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.MapPropriedadeEndpoints();
 app.MapTalhaoEndpoints();
+app.MapGet("/health", () => Results.Ok("API is healthy"));
 
 app.Run();
